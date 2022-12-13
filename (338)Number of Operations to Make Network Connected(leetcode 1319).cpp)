@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void make_adjlist(vector<int>adj[],vector<vector<int>>&connections)
+    {
+        for(int i=0;i<connections.size();i++)
+        {
+            adj[connections[i][0]].push_back(connections[i][1]);
+            adj[connections[i][1]].push_back(connections[i][0]);
+        }
+    }
+    void dfs(int i,vector<int>&visited,vector<int>adj[])
+    {
+        visited[i] = 1;
+        for(auto x : adj[i])
+        {
+            if(!visited[x])
+                dfs(x,visited,adj);
+        }
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        //first make an adjacency list. Perform DFS to get number of components in graph. Use this info to get number of connectoins to be changed
+        
+        //making adjacency list
+        vector<int>adj[n];
+        make_adjlist(adj,connections);
+        
+        //finding number of connected components in graph using dfs
+        int comps = 0;
+        vector<int>visited(n,0);
+      
+        
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i]==0)
+            {
+                comps++; dfs(i,visited,adj);
+            }
+        }
+        // cout<<comps<<endl;
+        //findinng number of operations to make network connected
+        if(connections.size()< n-1) return -1;
+        int redun = connections.size() - ((n-1) - (comps-1));
+        if(redun>=comps-1)
+                return comps-1;
+        else
+                return -1;
+    }
+};
