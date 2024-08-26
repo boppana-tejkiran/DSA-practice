@@ -1,1 +1,1 @@
-This folder contains my Data Structures and Algorithms practice
+My Data Structures and Algorithms practice
